@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState , useEffect} from "react";
 
 import "./App.css";
 import DisplayOpenTickets from "./components/DisplayOpenTickets";
@@ -29,9 +29,22 @@ function App() {
 
     var temp = JSON.parse(JSON.stringify(data));
     if(temp.id === 'new'){
-    temp.id = ticketId; 
-    setticketId(ticketId+1);
-    setTickets(tickets.concat(temp))
+    delete temp.id ;
+    
+    fetch('https://5f0760909c5c250016306e77.mockapi.io/v1/tickets', {
+      method: 'POST',
+      body: JSON.stringify(temp),
+      headers: {
+          'Content-Type': 'application/json'
+      }
+  }).then((res) => res.json())
+  .then((result) => {setTickets(tickets.concat(result));
+    console.log("handle submit the form"); })
+  .catch((err) => console.log(err))
+
+    
+   // setticketId(ticketId+1);
+  //  setTickets(tickets.concat(temp))
     console.log("handle submit the form")
   }
     else{
@@ -74,10 +87,18 @@ if(data.status=== 'unresolved'){
     setInitialState(data)
     setView('CreateTickets')
   }
-    
-
-   
   }
+
+  useEffect(() => {
+    fetch(`https://5f0760909c5c250016306e77.mockapi.io/v1/tickets`)
+    .then(results => results.json())
+    .then(data => {
+      setTickets(data);
+    })
+    .catch( (err) => console.log(err))
+
+  }, [] )
+
 
 
   return (
