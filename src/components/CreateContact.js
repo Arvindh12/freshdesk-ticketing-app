@@ -1,6 +1,6 @@
 import React from 'react'
 
-function CreateContact({handleContactSubmit , contactData}) {
+function CreateContact({handleContactSubmit , contactData , content}) {
 
     const [data, setData] = React.useState({name:"",company:"",position:""})
 
@@ -19,8 +19,9 @@ function CreateContact({handleContactSubmit , contactData}) {
 
     return (
         <div>
+           <h2>{content}</h2>
             <form onSubmit={(event) => {event.preventDefault();handleContactSubmit(data) }}>
-            <label>Contact Name: 
+            <label>{content} Name: 
             <input type="text" name ="name"  value={data.name } onChange={handleChange} />    
             </label>
             <label>Company Name: 
@@ -32,7 +33,7 @@ function CreateContact({handleContactSubmit , contactData}) {
             <input type="submit" value="Submit" />    
             </form>
             <div>
-            <h3>Saved Contats</h3>
+    <h3>Saved {content}</h3>
             <table className="table">
   <thead>
     <tr>

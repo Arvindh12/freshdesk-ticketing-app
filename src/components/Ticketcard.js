@@ -9,7 +9,7 @@ function Ticketcard({ticket ,handleResolveChange,handleEditTicket}) {
 
     return (
     <div className="card">
-  <h5 className="card-header">{ticket.name} <span className= {priorityclass} >{ticket.priority}</span></h5>
+  <h5 className="card-header">ID:{ticket.id} Name: {ticket.name} <span className= {priorityclass} >{ticket.priority}</span></h5>
   <div className="card-body">
     <h6 className="card-title">Agent : {ticket.agent}</h6>
     <h6 className="card-title">Contact : {ticket.contact}</h6>

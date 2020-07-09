@@ -14,7 +14,7 @@ function App() {
   const [ticketId, setticketId] = useState(0)
 
   const [tickets, setTickets] = useState([
-    { name: "arvindh", description: "ticket creation", contact: "ash" ,priority : "High" , status : "unresolved" , agent : "guvi" , id : 0 }
+   // { name: "arvindh", description: "ticket creation", contact: "ash" ,priority : "High" , status : "unresolved" , agent : "guvi" , id : 0 }
   ]);
 
   const [contacts, setContacts] = useState([])
@@ -87,7 +87,7 @@ if(data.status=== 'unresolved'){
       {/* <button className="">Create Ticket</button> */}
       {{"DisplayOpenTickets" : <DisplayOpenTickets data={tickets} handleResolveChange={handleResolveChange} handleEditTicket={handleEditTicket} />,
         "CreateTickets":  <CreateTicket agents={agents} contacts={contacts} handleTicketSubmit={handleTicketSubmit} initialState={initialState} /> ,
-       "CreateContact" :  <CreateContact handleContactSubmit={handleContactSubmit} contactData={contacts} />,
+       "CreateContact" :  <CreateContact handleContactSubmit={handleContactSubmit} contactData={contacts} content='Contact' />,
         "DisplayClosedTickets" : <DisplayClosedTickets data={tickets} handleResolveChange={handleResolveChange} handleEditTicket={handleEditTicket} />,
         "CreateAgent" : <CreateAgents handleAgentSubmit= {handleAgentSubmit} agentData={agents} />,
         "EditTickets" : <EditTickets />
