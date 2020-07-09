@@ -13,26 +13,33 @@ function App() {
   const [ticketId, setticketId] = useState(0)
 
   const [tickets, setTickets] = useState([
-    { name: "arvindh", description: "ticket creation", contact: "ash" ,priority : "High" , status : "unresolved" , agent : "guvi" , id : 0 }
+  //  { name: "arvindh", description: "ticket creation", contact: "ash" ,priority : "High" , status : "unresolved" , agent : "guvi" , id : 0 }
   ]);
 
   const [contacts, setContacts] = useState([])
 
+  const [agents, setAgents] = useState([])
 
   const [view, setView] = useState("CreateTickets")
+
+  var initialState = { name: "", description: "", contact: "" ,priority : "" , status : "unresolved", agent : "" , id: "new" }
 
   const handleTicketSubmit = (data) =>{
     console.log("handle submit the form")
     var temp = JSON.parse(JSON.stringify(data));
+    if(temp.id === 'new'){
     temp.id = ticketId; 
-    setticketId(ticketId+1)
+    setticketId(ticketId+1)}
+   // console.log(ticketId)
  setTickets(tickets.concat(temp))
-
-
   }
 
   const handleContactSubmit = (data) => {
     setContacts(contacts.concat(data))
+    
+  }
+  const handleAgentSubmit = (data) => {
+    setAgents(agents.concat(data))
     
   }
 
@@ -40,8 +47,8 @@ function App() {
     console.log(data)
     var temp = JSON.parse(JSON.stringify(tickets));
     temp = temp.map((ticket) => {
-      if(ticket.id == data){
-        if(ticket.status == "unresolved") {
+      if(ticket.id === data){
+        if(ticket.status === "unresolved") {
           ticket.status = "resolved";
           return ticket
         }
@@ -51,17 +58,24 @@ function App() {
     setTickets(temp)
   }
 
+  const handleEditTicket = (data) => {
+
+    initialState = data;
+
+    console.log("handleEditTicket" ,data)
+  }
+
 
   return (
     <>
     <div className="sidenav"><Navbar  changeView={setView} /></div>
     <div className="main">
       {/* <button className="">Create Ticket</button> */}
-      {{"DisplayOpenTickets" : <DisplayOpenTickets data={tickets} handleResolveChange={handleResolveChange} />,
-        "CreateTickets":  <CreateTicket contacts={contacts} handleTicketSubmit={handleTicketSubmit} initialState={{ name: "", description: "", contact: "" ,priority : "" , status : "resolved"}} /> ,
+      {{"DisplayOpenTickets" : <DisplayOpenTickets data={tickets} handleResolveChange={handleResolveChange} handleEditTicket={handleEditTicket} />,
+        "CreateTickets":  <CreateTicket agents={agents} contacts={contacts} handleTicketSubmit={handleTicketSubmit} initialState={initialState} /> ,
        "CreateContact" :  <CreateContact handleContactSubmit={handleContactSubmit} contactData={contacts} />,
-        "DisplayClosedTickets" : <DisplayClosedTickets data={tickets} handleResolveChange={handleResolveChange} />,
-        "CreateAgent" : <CreateAgents />
+        "DisplayClosedTickets" : <DisplayClosedTickets data={tickets} handleResolveChange={handleResolveChange} handleEditTicket={handleEditTicket} />,
+        "CreateAgent" : <CreateAgents handleAgentSubmit= {handleAgentSubmit} agentData={agents} />
       }[view]
       }
          </div>

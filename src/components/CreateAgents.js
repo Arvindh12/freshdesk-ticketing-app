@@ -1,9 +1,10 @@
 import React from 'react'
+import CreateContact from './CreateContact'
 
-function CreateAgents() {
+function CreateAgents({handleAgentSubmit , agentData }) {
     return (
         <div>
-            
+            <CreateContact  handleContactSubmit= {handleAgentSubmit} contactData={agentData}/>
         </div>
     )
 }

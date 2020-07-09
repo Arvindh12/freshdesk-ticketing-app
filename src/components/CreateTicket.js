@@ -1,6 +1,6 @@
 import React from 'react'
 
-function CreateTicket({contacts , handleTicketSubmit , initialState}) {
+function CreateTicket({contacts , handleTicketSubmit , initialState , agents}) {
 
     const [data, setData] = React.useState(initialState)
 
@@ -31,9 +31,9 @@ function CreateTicket({contacts , handleTicketSubmit , initialState}) {
             <option value="Low">Low</option>
 
           </select>
-                </label>
+                </label> <br />
                 <label> Contact:
-                <select  name="contact" onClick={handleChange}>
+                <select  name="contact" onChange={handleChange}>
                 <option value="">Select your option</option>
             {/* <option value="High">High</option>
             <option value="Medium">Medium</option>
@@ -43,7 +43,20 @@ function CreateTicket({contacts , handleTicketSubmit , initialState}) {
             }
 
           </select>
-                </label>
+                </label> <br />
+
+                <label> Agent:
+                <select  name="agent" onChange={handleChange}>
+                <option value="">Select your option</option>
+            {/* <option value="High">High</option>
+            <option value="Medium">Medium</option>
+            <option value="Low">Low</option> */}
+            {
+                agents.map((data) => <option value={data.name}>{data.name}</option>)
+            }
+
+          </select>
+                </label> <br />
 
                 <input type="submit" value="Submit" /> 
             </form>
