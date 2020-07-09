@@ -33,7 +33,7 @@ function CreateTicket({contacts , handleTicketSubmit , initialState , agents}) {
           </select>
                 </label> <br />
                 <label> Contact:
-                <select  name="contact" onChange={handleChange}>
+                <select value={data.contact} name="contact" onChange={handleChange}>
                 <option value="">Select your option</option>
             {/* <option value="High">High</option>
             <option value="Medium">Medium</option>
@@ -46,7 +46,7 @@ function CreateTicket({contacts , handleTicketSubmit , initialState , agents}) {
                 </label> <br />
 
                 <label> Agent:
-                <select  name="agent" onChange={handleChange}>
+                <select value={data.agent} name="agent" onChange={handleChange}>
                 <option value="">Select your option</option>
             {/* <option value="High">High</option>
             <option value="Medium">Medium</option>
