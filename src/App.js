@@ -49,9 +49,25 @@ function App() {
   }
     else{
       //initialState = { name: "", description: "", contact: "" ,priority : "" , status : "unresolved", agent : "" , id: "new" }
+      var id = temp.id;
+      delete temp.id;
+      fetch('https://5f0760909c5c250016306e77.mockapi.io/v1/tickets/'+id, {
+        method: 'PUT',
+        body: JSON.stringify(temp),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then((res) => res.json())
+    .then((result) => {
+      
       setInitialState({ name: "", description: "", contact: "" ,priority : "" , status : "unresolved", agent : "" , id: "new" } )
-      setTickets( tickets.filter((ticket) => ticket.id !== temp.id).concat(temp) )
+      setTickets( tickets.filter((ticket) => ticket.id !== result.id).concat(result) )
       setView('DisplayOpenTickets')
+     // setTickets(tickets.concat(result));
+      console.log("handle edit the form"); })
+    .catch((err) => console.log(err))
+
+      
     }
    // console.log(ticketId)
 
