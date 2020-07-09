@@ -8,12 +8,13 @@ import Navbar from './components/navbar'
 import CreateContact from './components/CreateContact'
 import DisplayClosedTickets from './components//DisplayClosedTickets'
 import CreateAgents from './components/CreateAgents'
+import EditTickets from './components/EditTickets'
 
 function App() {
   const [ticketId, setticketId] = useState(0)
 
   const [tickets, setTickets] = useState([
-  //  { name: "arvindh", description: "ticket creation", contact: "ash" ,priority : "High" , status : "unresolved" , agent : "guvi" , id : 0 }
+    { name: "arvindh", description: "ticket creation", contact: "ash" ,priority : "High" , status : "unresolved" , agent : "guvi" , id : 0 }
   ]);
 
   const [contacts, setContacts] = useState([])
@@ -22,16 +23,25 @@ function App() {
 
   const [view, setView] = useState("CreateTickets")
 
-  var initialState = { name: "", description: "", contact: "" ,priority : "" , status : "unresolved", agent : "" , id: "new" }
+  const [initialState,setInitialState ] = useState({ name: "", description: "", contact: "" ,priority : "" , status : "unresolved", agent : "" , id: "new" })
 
   const handleTicketSubmit = (data) =>{
-    console.log("handle submit the form")
+
     var temp = JSON.parse(JSON.stringify(data));
     if(temp.id === 'new'){
     temp.id = ticketId; 
-    setticketId(ticketId+1)}
+    setticketId(ticketId+1);
+    setTickets(tickets.concat(temp))
+    console.log("handle submit the form")
+  }
+    else{
+      //initialState = { name: "", description: "", contact: "" ,priority : "" , status : "unresolved", agent : "" , id: "new" }
+      setInitialState({ name: "", description: "", contact: "" ,priority : "" , status : "unresolved", agent : "" , id: "new" } )
+      setTickets( tickets.filter((ticket) => ticket.id !== temp.id).concat(temp) )
+      setView('DisplayOpenTickets')
+    }
    // console.log(ticketId)
- setTickets(tickets.concat(temp))
+
   }
 
   const handleContactSubmit = (data) => {
@@ -59,10 +69,14 @@ function App() {
   }
 
   const handleEditTicket = (data) => {
+   // initialState = data;
+if(data.status=== 'unresolved'){
+    setInitialState(data)
+    setView('CreateTickets')
+  }
+    
 
-    initialState = data;
-
-    console.log("handleEditTicket" ,data)
+   
   }
 
 
@@ -75,7 +89,8 @@ function App() {
         "CreateTickets":  <CreateTicket agents={agents} contacts={contacts} handleTicketSubmit={handleTicketSubmit} initialState={initialState} /> ,
        "CreateContact" :  <CreateContact handleContactSubmit={handleContactSubmit} contactData={contacts} />,
         "DisplayClosedTickets" : <DisplayClosedTickets data={tickets} handleResolveChange={handleResolveChange} handleEditTicket={handleEditTicket} />,
-        "CreateAgent" : <CreateAgents handleAgentSubmit= {handleAgentSubmit} agentData={agents} />
+        "CreateAgent" : <CreateAgents handleAgentSubmit= {handleAgentSubmit} agentData={agents} />,
+        "EditTickets" : <EditTickets />
       }[view]
       }
          </div>
