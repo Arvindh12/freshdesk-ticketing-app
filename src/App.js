@@ -74,27 +74,69 @@ function App() {
   }
 
   const handleContactSubmit = (data) => {
-    setContacts(contacts.concat(data))
+    fetch('https://5f0760909c5c250016306e77.mockapi.io/v1/contacts', {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: {
+          'Content-Type': 'application/json'
+      }
+  }).then((res) => res.json())
+  .then((result) => {
+
+    setContacts(contacts.concat(result))
+
+  })
+  .catch(err => {console.log(err)})
     
   }
+
   const handleAgentSubmit = (data) => {
-    setAgents(agents.concat(data))
-    
+    fetch('https://5f0760909c5c250016306e77.mockapi.io/v1/agents', {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: {
+          'Content-Type': 'application/json'
+      }
+  }).then((res) => res.json())
+  .then((result) => {
+
+    setAgents(agents.concat(result))
+
+  })
+  .catch(err => {console.log(err)})   
   }
 
   const handleResolveChange = (data) =>{
     console.log(data)
     var temp = JSON.parse(JSON.stringify(tickets));
-    temp = temp.map((ticket) => {
+    var isSet = -1;
+    temp = temp.map((ticket,index) => {
       if(ticket.id === data){
         if(ticket.status === "unresolved") {
           ticket.status = "resolved";
+          isSet = index
           return ticket
         }
       }
       return ticket;
     })
-    setTickets(temp)
+    if(isSet > -1){
+      fetch('https://5f0760909c5c250016306e77.mockapi.io/v1/tickets/'+temp[isSet].id, {
+        method: 'PUT',
+        body: JSON.stringify(temp[isSet]),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then((res) => res.json())
+    .then((result) => {
+      setTickets(temp)
+      console.log(result)
+
+    })
+
+
+    }
+   
   }
 
   const handleEditTicket = (data) => {
@@ -106,15 +148,25 @@ if(data.status=== 'unresolved'){
   }
 
   useEffect(() => {
-    fetch(`https://5f0760909c5c250016306e77.mockapi.io/v1/tickets`)
-    .then(results => results.json())
-    .then(data => {
-      setTickets(data);
-    })
-    .catch( (err) => console.log(err))
+  Promise.all([
+    fetch("https://5f0760909c5c250016306e77.mockapi.io/v1/tickets"),
+    fetch("https://5f0760909c5c250016306e77.mockapi.io/v1/contacts"),
+    fetch("https://5f0760909c5c250016306e77.mockapi.io/v1/agents")
+  ]).then(([ticket, contact, agent]) => {
 
-  }, [] )
+    return Promise.all([ticket.json(), contact.json(), agent.json()])
 
+  })
+  .then(([ticket, contact, agent]) => {
+   setTickets(ticket);
+   setContacts(contact)
+   setAgents(agent)
+  })
+  .catch((err) => {
+      console.log(err);
+  });
+
+}, [] )
 
 
   return (

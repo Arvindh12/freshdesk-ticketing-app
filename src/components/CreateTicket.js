@@ -39,7 +39,7 @@ function CreateTicket({contacts , handleTicketSubmit , initialState , agents}) {
             <option value="Medium">Medium</option>
             <option value="Low">Low</option> */}
             {
-                contacts.map((data) => <option value={data.name}>{data.name}</option>)
+                contacts.map((data) => <option key={data.id} value={data.name}>{data.name}</option>)
             }
 
           </select>
@@ -52,7 +52,7 @@ function CreateTicket({contacts , handleTicketSubmit , initialState , agents}) {
             <option value="Medium">Medium</option>
             <option value="Low">Low</option> */}
             {
-                agents.map((data) => <option value={data.name}>{data.name}</option>)
+                agents.map((data) => <option key={data.id} value={data.name}>{data.name}</option>)
             }
 
           </select>

@@ -45,7 +45,7 @@ function CreateContact({handleContactSubmit , contactData , content}) {
   </thead>
   <tbody> 
       {contactData.map((contact) => 
-          <tr>
+          <tr key={contact.id} >
           <th scope="row">contact.id</th>
           <td>{contact.name}</td>
           <td>{contact.company}</td>
